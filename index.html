@@ -3,1122 +3,1073 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InterviewOS v2 — Hackathon Blueprint</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>InterviewOS — Hackathon Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #111118;
-    --surface2: #16161f;
-    --border: #2a2a3a;
-    --accent: #7c6af7;
-    --accent2: #f76a8a;
-    --accent3: #6af7c8;
-    --text: #e8e8f0;
-    --muted: #7070a0;
-    --gold: #f5c842;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
-  }
-
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    padding: 6rem 0 4rem;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 50%, rgba(124,106,247,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 40% at 80% 30%, rgba(247,106,138,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse 40% 50% at 60% 80%, rgba(106,247,200,0.06) 0%, transparent 50%);
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(124,106,247,0.15);
-    border: 1px solid rgba(124,106,247,0.3);
-    border-radius: 100px;
-    padding: 0.4rem 1rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    width: fit-content;
-  }
-
-  .badge-dot {
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-  }
-
-  .badge.v2 {
-    background: rgba(106,247,200,0.1);
-    border-color: rgba(106,247,200,0.3);
-    color: var(--accent3);
-    margin-left: 0.5rem;
-  }
-
-  .badge.v2 .badge-dot { background: var(--accent3); }
-
-  .badges-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
-
-  h1.hero-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-title .line2 { color: var(--accent); font-style: italic; }
-
-  .hero-subtitle {
-    font-size: 1.15rem;
-    color: var(--muted);
-    max-width: 680px;
-    margin-bottom: 2rem;
-    font-weight: 400;
-    line-height: 1.7;
-  }
-
-  .zero-cost-banner {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: linear-gradient(135deg, rgba(106,247,200,0.1), rgba(124,106,247,0.08));
-    border: 1px solid rgba(106,247,200,0.3);
-    border-radius: 12px;
-    padding: 0.85rem 1.5rem;
-    margin-bottom: 2.5rem;
-    font-size: 0.9rem;
-    color: var(--accent3);
-    font-weight: 600;
-  }
-
-  .hero-meta { display: flex; gap: 2.5rem; flex-wrap: wrap; }
-
-  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
-
-  .meta-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .meta-value {
-    font-family: 'DM Mono', monospace;
-    font-size: 1rem;
-    color: var(--accent3);
-    font-weight: 500;
-  }
-
-  /* SECTIONS */
-  section { padding: 5rem 0; border-top: 1px solid var(--border); }
-
-  .section-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    font-family: 'DM Mono', monospace;
-  }
-
-  h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    line-height: 1.1;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-
-  .section-intro {
-    color: var(--muted);
-    font-size: 1.05rem;
-    max-width: 750px;
-    line-height: 1.75;
-    margin-bottom: 3rem;
-  }
-
-  /* CARDS */
-  .concept-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.75rem;
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(124,106,247,0.5), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .card:hover { border-color: rgba(124,106,247,0.4); transform: translateY(-2px); }
-  .card:hover::before { opacity: 1; }
-
-  .card-icon { font-size: 1.75rem; margin-bottom: 1rem; }
-
-  .card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
-
-  .card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
-
-  .tag {
-    display: inline-block;
-    background: rgba(124,106,247,0.1);
-    border: 1px solid rgba(124,106,247,0.2);
-    color: var(--accent);
-    font-size: 0.7rem;
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    font-family: 'DM Mono', monospace;
-    margin-top: 1rem;
-    font-weight: 500;
-  }
-
-  .tag.green { background: rgba(106,247,200,0.1); border-color: rgba(106,247,200,0.2); color: var(--accent3); }
-  .tag.pink  { background: rgba(247,106,138,0.1); border-color: rgba(247,106,138,0.2); color: var(--accent2); }
-  .tag.gold  { background: rgba(245,200,66,0.1);  border-color: rgba(245,200,66,0.2);  color: var(--gold); }
-
-  /* INNOVATION BOX */
-  .innovation-box {
-    background: linear-gradient(135deg, rgba(124,106,247,0.1) 0%, rgba(247,106,138,0.05) 100%);
-    border: 1px solid rgba(124,106,247,0.25);
-    border-radius: 20px;
-    padding: 2.5rem;
-    margin: 2rem 0;
-  }
-
-  .innovation-box h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    color: var(--accent);
-  }
-
-  .innovation-box p { color: var(--muted); line-height: 1.75; font-size: 0.95rem; max-width: 850px; }
-
-  /* MODEL TABLE */
-  .model-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 0.5rem;
-    margin: 2rem 0;
-  }
-
-  .model-table thead tr th {
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 0.5rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .model-table tbody tr { background: var(--surface); }
-
-  .model-table tbody tr td {
-    padding: 1rem 1.25rem;
-    font-size: 0.88rem;
-    color: var(--text);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-    line-height: 1.5;
-  }
-
-  .model-table tbody tr td:first-child {
-    border-left: 1px solid var(--border);
-    border-radius: 10px 0 0 10px;
-    color: var(--muted);
-    font-size: 0.78rem;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .model-table tbody tr td:last-child {
-    border-right: 1px solid var(--border);
-    border-radius: 0 10px 10px 0;
-    color: var(--muted);
-    font-size: 0.82rem;
-  }
-
-  .model-table tbody tr:hover td {
-    border-color: rgba(106,247,200,0.3);
-    background: rgba(106,247,200,0.03);
-  }
-
-  .model-name {
-    font-weight: 700;
-    color: var(--accent3) !important;
-    font-family: 'DM Mono', monospace !important;
-    font-size: 0.88rem !important;
-    text-transform: none !important;
-    letter-spacing: 0 !important;
-  }
-
-  /* PIPELINE DIAGRAM */
-  .pipeline {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem;
-    margin: 2rem 0;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .pipeline-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 2rem;
-    font-weight: 700;
-  }
-
-  .pipeline-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .pipeline-box {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.85rem 1.25rem;
-    text-align: center;
-    font-size: 0.82rem;
-    color: var(--text);
-    flex: 1;
-    line-height: 1.4;
-  }
-
-  .pipeline-box small {
-    display: block;
-    color: var(--muted);
-    font-size: 0.7rem;
-    margin-top: 0.2rem;
-  }
-
-  .pipeline-box.accent { border-color: rgba(124,106,247,0.4); background: rgba(124,106,247,0.08); }
-  .pipeline-box.green  { border-color: rgba(106,247,200,0.3); background: rgba(106,247,200,0.06); }
-  .pipeline-box.pink   { border-color: rgba(247,106,138,0.3); background: rgba(247,106,138,0.06); }
-  .pipeline-box.gold   { border-color: rgba(245,200,66,0.3);  background: rgba(245,200,66,0.06); }
-
-  .pipeline-arrow {
-    color: var(--muted);
-    font-size: 1.1rem;
-    flex-shrink: 0;
-  }
-
-  /* CODE BLOCK */
-  .code-block {
-    background: #0d0d14;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    line-height: 1.7;
-    overflow-x: auto;
-    margin: 1rem 0;
-    color: #c8c8e0;
-  }
-
-  .code-block .kw  { color: #7c6af7; }
-  .code-block .str { color: #6af7c8; }
-  .code-block .cm  { color: #4a4a6a; }
-  .code-block .fn  { color: #f5c842; }
-  .code-block .num { color: #f76a8a; }
-
-  /* RAG FLOW */
-  .rag-flow {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin: 2rem 0;
-  }
-
-  .rag-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
-    position: relative;
-    padding-bottom: 1.5rem;
-  }
-
-  .rag-step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 1.25rem;
-    top: 2.8rem;
-    bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--accent), transparent);
-  }
-
-  .rag-num {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    background: rgba(124,106,247,0.15);
-    border: 1px solid rgba(124,106,247,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--accent);
-    flex-shrink: 0;
-    font-weight: 700;
-  }
-
-  .rag-content { flex: 1; padding-top: 0.35rem; }
-  .rag-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
-  .rag-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
-
-  /* ARCHITECTURE */
-  .arch-full {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.2rem 1.5rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-  }
-
-  .arch-full-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    min-width: 90px;
-  }
-
-  .arch-full-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
-  .chip {
-    background: rgba(124,106,247,0.1);
-    border: 1px solid rgba(124,106,247,0.2);
-    color: var(--accent);
-    padding: 0.25rem 0.75rem;
-    border-radius: 6px;
-    font-size: 0.78rem;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .chip.green  { background: rgba(106,247,200,0.1); border-color: rgba(106,247,200,0.2); color: var(--accent3); }
-  .chip.pink   { background: rgba(247,106,138,0.1); border-color: rgba(247,106,138,0.2); color: var(--accent2); }
-  .chip.gold   { background: rgba(245,200,66,0.08); border-color: rgba(245,200,66,0.2);  color: var(--gold); }
-  .chip.neutral{ background: rgba(255,255,255,0.04); border-color: var(--border); color: var(--muted); }
-
-  /* TIMELINE */
-  .timeline { position: relative; padding-left: 2rem; }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 0.5rem; top: 0.5rem; bottom: 0.5rem;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--accent3));
-  }
-
-  .timeline-item { position: relative; margin-bottom: 2rem; padding-left: 1.5rem; }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -1.6rem; top: 0.5rem;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    border: 2px solid var(--bg);
-    box-shadow: 0 0 0 2px var(--accent);
-  }
-
-  .timeline-item:nth-child(2)::before { background: var(--accent2); box-shadow: 0 0 0 2px var(--accent2); }
-  .timeline-item:nth-child(3)::before { background: var(--accent3); box-shadow: 0 0 0 2px var(--accent3); }
-  .timeline-item:nth-child(4)::before { background: var(--gold);    box-shadow: 0 0 0 2px var(--gold); }
-  .timeline-item:nth-child(5)::before { background: var(--accent);  box-shadow: 0 0 0 2px var(--accent); }
-
-  .timeline-time { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--accent); margin-bottom: 0.3rem; font-weight: 500; }
-  .timeline-item:nth-child(2) .timeline-time { color: var(--accent2); }
-  .timeline-item:nth-child(3) .timeline-time { color: var(--accent3); }
-  .timeline-item:nth-child(4) .timeline-time { color: var(--gold); }
-  .timeline-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
-  .timeline-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
-
-  /* RISKS */
-  .risk-row {
-    display: grid;
-    grid-template-columns: 1fr 2fr 2fr;
-    gap: 1rem;
-    padding: 1rem;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    margin-bottom: 0.75rem;
-    background: var(--surface);
-    align-items: start;
-    font-size: 0.88rem;
-  }
-
-  .risk-row:hover { border-color: rgba(247,106,138,0.3); }
-  .risk-label { color: var(--accent2); font-weight: 700; font-family: 'DM Mono', monospace; font-size: 0.78rem; text-transform: uppercase; }
-  .risk-issue { color: var(--text); line-height: 1.5; }
-  .risk-fix { color: var(--muted); line-height: 1.5; }
-
-  /* DIFF CARDS */
-  .diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-
-  .diff-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .diff-card::after {
-    content: attr(data-num);
-    position: absolute;
-    bottom: -0.5rem; right: 0.5rem;
-    font-family: 'DM Serif Display', serif;
-    font-size: 5rem;
-    color: rgba(124,106,247,0.06);
-    line-height: 1;
-    pointer-events: none;
-  }
-
-  .diff-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--accent3); }
-  .diff-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-
-  /* SCOPE */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
-
-  /* COMPARISON */
-  .compare-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-  }
-
-  .compare-cell {
-    background: var(--surface);
-    padding: 1rem 1.25rem;
-    font-size: 0.88rem;
-  }
-
-  .compare-cell.header {
-    background: var(--surface2);
-    font-size: 0.7rem;
-    font-family: 'DM Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    font-weight: 700;
-  }
-
-  .compare-cell.highlight-good { color: var(--accent3); font-weight: 600; }
-  .compare-cell.highlight-bad  { color: var(--accent2); }
-  .compare-cell.highlight-ok   { color: var(--gold); }
-
-  /* FOOTER */
-  footer { border-top: 1px solid var(--border); padding: 3rem 0; text-align: center; }
-  .footer-title { font-family: 'DM Serif Display', serif; font-size: 2.5rem; margin-bottom: 0.75rem; color: var(--accent); font-style: italic; }
-  .footer-sub { color: var(--muted); font-size: 0.9rem; }
-
-  strong { color: var(--text); font-weight: 700; }
-
-  ul { list-style: none; }
-  ul li {
-    padding: 0.35rem 0 0.35rem 1.2rem;
-    position: relative;
-    font-size: 0.92rem;
-    color: var(--muted);
-    line-height: 1.55;
-  }
-  ul li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 0.8rem;
-    top: 0.4rem;
-  }
-
-  .highlight  { color: var(--accent); }
-  .highlight2 { color: var(--accent2); }
-  .highlight3 { color: var(--accent3); }
-  .gold { color: var(--gold); }
-
-  section { animation: fadeUp 0.6s ease both; }
-  section:nth-child(2) { animation-delay: 0.05s; }
-  section:nth-child(3) { animation-delay: 0.1s; }
-  section:nth-child(4) { animation-delay: 0.15s; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+:root {
+  --bg: #0e0e0e;
+  --bg2: #141414;
+  --bg3: #1a1a1a;
+  --border: #2c2c2c;
+  --border2: #383838;
+  --text: #f0ede6;
+  --muted: #6b6b6b;
+  --muted2: #4a4a4a;
+  --amber: #e8a020;
+  --amber2: #f5c060;
+  --green: #3ecf8e;
+  --red: #e85050;
+  --blue: #6090e8;
+  --accent: #e8a020;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* GRAIN */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 2.5rem; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  padding: 7rem 0 5rem;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-left {}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--amber);
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 7vw, 6.5rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+}
+h1 em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.hero-desc {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 400px;
+}
+
+.stat {
+  background: var(--bg2);
+  padding: 1.25rem 1.5rem;
+}
+.stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--amber2);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.stat-key {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.hero-feature {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.hero-feature:hover {
+  border-color: var(--border2);
+  background: var(--bg3);
+}
+.hf-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+.hf-title {
+  font-weight: 600;
+  font-size: 0.92rem;
+  margin-bottom: 0.2rem;
+  color: var(--text);
+}
+.hf-desc {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ─── SECTIONS ─── */
+section { padding: 6rem 0; border-bottom: 1px solid var(--border); }
+
+.sec-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.sec-label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--amber);
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.25rem;
+}
+h2 em { font-style: italic; color: var(--amber); }
+
+.sec-intro {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 3.5rem;
+  font-weight: 300;
+}
+
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+/* ─── CARDS ─── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+.auto3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+.auto4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.75rem;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.card:hover {
+  border-color: var(--border2);
+  transform: translateY(-1px);
+}
+.card-icon { font-size: 1.6rem; margin-bottom: 1rem; }
+.card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+.card p { font-size: 0.87rem; color: var(--muted); line-height: 1.65; }
+
+/* ─── PILL / TAG ─── */
+.pill {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.22rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid;
+  margin-top: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+.pill-a { background: rgba(232,160,32,0.08); border-color: rgba(232,160,32,0.25); color: var(--amber2); }
+.pill-g { background: rgba(62,207,142,0.08); border-color: rgba(62,207,142,0.25); color: var(--green); }
+.pill-r { background: rgba(232,80,80,0.08);  border-color: rgba(232,80,80,0.25);  color: var(--red); }
+.pill-b { background: rgba(96,144,232,0.08); border-color: rgba(96,144,232,0.25); color: var(--blue); }
+
+/* ─── CALLOUT BOX ─── */
+.callout {
+  border-radius: 16px;
+  padding: 2.25rem 2.5rem;
+  margin: 2.5rem 0;
+}
+.callout-amber {
+  background: rgba(232,160,32,0.06);
+  border: 1px solid rgba(232,160,32,0.2);
+}
+.callout-green {
+  background: rgba(62,207,142,0.05);
+  border: 1px solid rgba(62,207,142,0.18);
+}
+.callout-neutral {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+}
+.callout h3 { font-size: 1.3rem; margin-bottom: 0.75rem; }
+.callout-amber h3 { color: var(--amber2); }
+.callout-green h3  { color: var(--green); }
+.callout p { font-size: 0.92rem; color: var(--muted); line-height: 1.8; max-width: 820px; }
+
+/* ─── CODE ─── */
+.code-block {
+  background: #080808;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  line-height: 1.75;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  color: #c0bdb6;
+}
+.kw  { color: #e8a020; }
+.str { color: #3ecf8e; }
+.fn  { color: #6090e8; }
+.cmt { color: #3a3a3a; }
+.num { color: #e85050; }
+.key { color: #c0bdb6; }
+
+/* ─── TABLE ─── */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.4rem;
+}
+.data-table thead th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  padding: 0 1.25rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.data-table tbody tr td {
+  padding: 1rem 1.25rem;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  vertical-align: middle;
+  color: var(--text);
+}
+.data-table tbody tr td:first-child {
+  border-left: 1px solid var(--border);
+  border-radius: 8px 0 0 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.data-table tbody tr td:last-child {
+  border-right: 1px solid var(--border);
+  border-radius: 0 8px 8px 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.data-table tbody tr:hover td {
+  border-color: rgba(232,160,32,0.2);
+  background: rgba(232,160,32,0.03);
+}
+.tn  { font-weight: 600 !important; color: var(--amber2) !important; font-size: 0.88rem !important; font-family: 'JetBrains Mono', monospace !important; text-transform: none !important; letter-spacing: 0 !important; }
+.tnw { font-weight: 600 !important; color: var(--text) !important; font-size: 0.9rem !important; font-family: 'DM Sans', sans-serif !important; text-transform: none !important; letter-spacing: 0 !important; }
+.stars { color: var(--amber); font-size: 0.85rem; }
+
+/* ─── ARCH DIAGRAM ─── */
+.arch-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 2.5rem;
+  margin: 2rem 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.arch-layer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 0.4rem;
+  flex-wrap: wrap;
+}
+.arch-layer.amber { border-color: rgba(232,160,32,0.3); background: rgba(232,160,32,0.05); }
+.arch-layer.green { border-color: rgba(62,207,142,0.3); background: rgba(62,207,142,0.04); }
+
+.arch-lbl {
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-width: 90px;
+  flex-shrink: 0;
+}
+.arch-lbl.amber { color: var(--amber); }
+.arch-lbl.green { color: var(--green); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  padding: 0.22rem 0.7rem;
+  border-radius: 5px;
+  border: 1px solid;
+}
+.chip-a { background: rgba(232,160,32,0.08); border-color: rgba(232,160,32,0.2); color: var(--amber2); }
+.chip-g { background: rgba(62,207,142,0.08); border-color: rgba(62,207,142,0.2); color: var(--green); }
+.chip-b { background: rgba(96,144,232,0.08); border-color: rgba(96,144,232,0.2); color: var(--blue); }
+.chip-n { background: rgba(255,255,255,0.03); border-color: var(--border); color: var(--muted); }
+
+.arch-arrow { text-align: center; color: var(--muted2); font-size: 1.2rem; margin: 0.1rem 0; }
+
+/* ─── FLOW ─── */
+.flow-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+.flow-step {
+  flex: 1;
+  min-width: 110px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 0.9rem;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.flow-step span {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 0.3rem;
+  font-weight: 400;
+}
+.flow-step.lit { border-color: rgba(232,160,32,0.4); background: rgba(232,160,32,0.07); }
+.flow-step.lit span { color: var(--amber); }
+.flow-arr { display: flex; align-items: center; color: var(--muted2); padding: 0 0.3rem; font-size: 1rem; flex-shrink: 0; }
+
+/* ─── TIMELINE ─── */
+.tl { position: relative; padding-left: 2.25rem; }
+.tl::before {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--amber), var(--amber2), var(--green));
+}
+.tl-item { position: relative; margin-bottom: 2.25rem; padding-left: 1.25rem; }
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -1.65rem;
+  top: 0.5rem;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--amber);
+}
+.tl-item:nth-child(2)::before { background: #e87840; box-shadow: 0 0 0 2px #e87840; }
+.tl-item:nth-child(3)::before { background: var(--amber2); box-shadow: 0 0 0 2px var(--amber2); }
+.tl-item:nth-child(4)::before { background: var(--green); box-shadow: 0 0 0 2px var(--green); }
+.tl-item:nth-child(5)::before { background: var(--blue); box-shadow: 0 0 0 2px var(--blue); }
+.tl-time { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--amber); margin-bottom: 0.3rem; font-weight: 500; }
+.tl-item:nth-child(2) .tl-time { color: #e87840; }
+.tl-item:nth-child(3) .tl-time { color: var(--amber2); }
+.tl-item:nth-child(4) .tl-time { color: var(--green); }
+.tl-item:nth-child(5) .tl-time { color: var(--blue); }
+.tl-title { font-size: 0.98rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--text); }
+.tl-desc  { font-size: 0.86rem; color: var(--muted); line-height: 1.6; }
+
+/* ─── RAG FLOW ─── */
+.rag-flow {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+.rag-row { display: flex; gap: 0.9rem; align-items: stretch; margin-bottom: 0.9rem; flex-wrap: wrap; }
+.rag-box {
+  flex: 1;
+  min-width: 140px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.1rem 1.2rem;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.rag-box-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.5rem; }
+.rag-box.amber { border-color: rgba(232,160,32,0.3); background: rgba(232,160,32,0.05); }
+.rag-box.green { border-color: rgba(62,207,142,0.3); background: rgba(62,207,142,0.04); }
+.rag-box.blue  { border-color: rgba(96,144,232,0.3);  background: rgba(96,144,232,0.04); }
+.rag-arr { display: flex; align-items: center; color: var(--muted2); font-size: 1rem; padding: 0 0.25rem; flex-shrink: 0; }
+
+/* ─── DIFF CARDS ─── */
+.diff-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.6rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.diff-card::after {
+  content: attr(data-n);
+  position: absolute;
+  bottom: -0.75rem;
+  right: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 5.5rem;
+  color: rgba(232,160,32,0.05);
+  line-height: 1;
+  pointer-events: none;
+  font-weight: 900;
+}
+.diff-card:hover { border-color: rgba(232,160,32,0.3); }
+.diff-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--amber2); }
+.diff-card p  { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+/* ─── LIST ─── */
+ul { list-style: none; }
+ul li { padding: 0.3rem 0 0.3rem 1.25rem; position: relative; font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+ul li::before { content: '·'; position: absolute; left: 0.25rem; color: var(--amber); font-size: 1.1rem; top: 0.25rem; }
+
+strong { color: var(--text); font-weight: 600; }
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 4rem 0;
+  text-align: center;
+}
+.footer-title { font-family: 'Playfair Display', serif; font-size: 2.75rem; font-style: italic; color: var(--amber); margin-bottom: 0.75rem; font-weight: 700; }
+.footer-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 2rem; }
+.footer-chips { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+
+/* ─── DIVIDER LABEL ─── */
+.divider-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 3rem 0 2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+.divider-label::before, .divider-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .grid2, .grid3, .grid4 { grid-template-columns: 1fr; }
+  .flow-wrap { flex-direction: column; }
+  .rag-row { flex-direction: column; }
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes slideUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+.hero { animation: slideUp 0.7s ease both; }
+section { animation: slideUp 0.6s ease both; opacity: 0; }
+section:nth-child(1) { animation-delay: 0.05s; }
+section:nth-child(2) { animation-delay: 0.1s; }
+section:nth-child(3) { animation-delay: 0.15s; }
+section:nth-child(4) { animation-delay: 0.2s; }
+section:nth-child(5) { animation-delay: 0.25s; }
+section:nth-child(6) { animation-delay: 0.3s; }
+section:nth-child(7) { animation-delay: 0.35s; }
+section:nth-child(8) { animation-delay: 0.4s; }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
 <div class="hero">
   <div class="hero-bg"></div>
-  <div class="container">
-    <div class="badges-row">
-      <div class="badge"><span class="badge-dot"></span> 36-Hour Hackathon Blueprint</div>
-      <div class="badge v2"><span class="badge-dot"></span> v2 — Zero API Edition</div>
-    </div>
-    <h1 class="hero-title">
-      Interview<br>
-      <span class="line2">OS</span>
-    </h1>
-    <p class="hero-subtitle">
-      A fully local, AI-native interview simulation platform. Every model — STT, LLM, TTS — runs <em>inside the browser</em> via Transformers.js. No external APIs. No accounts. No cost. Ever.
-    </p>
-    <div class="zero-cost-banner">
-      ✦ &nbsp;$0.00 total cost &nbsp;·&nbsp; No API keys &nbsp;·&nbsp; Runs offline after first load &nbsp;·&nbsp; 100% in-browser AI
-    </div>
-    <div class="hero-meta">
-      <div class="meta-item">
-        <span class="meta-label">AI Runtime</span>
-        <span class="meta-value">Transformers.js</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">LLM</span>
-        <span class="meta-value">Qwen2.5 0.5B</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">STT</span>
-        <span class="meta-value">Whisper Small</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Total Cost</span>
-        <span class="meta-value" style="color:var(--accent3);">$0.00</span>
+  <div class="container" style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
+
+    <div class="hero-left">
+      <div class="eyebrow">36-Hour Hackathon Blueprint</div>
+      <h1>Interview<br><em>OS</em></h1>
+      <p class="hero-desc">
+        A real-time AI mock interview platform where every model — speech recognition, the interviewer brain, and voice — runs entirely inside the user's browser. No servers, no API keys, no cost.
+      </p>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-val">Transformers.js</div><div class="stat-key">AI Runtime</div></div>
+        <div class="stat"><div class="stat-val">Qwen2.5-0.5B</div><div class="stat-key">Local LLM</div></div>
+        <div class="stat"><div class="stat-val">$0.00</div><div class="stat-key">Total Cost</div></div>
+        <div class="stat"><div class="stat-val">100% Offline</div><div class="stat-key">After First Load</div></div>
       </div>
     </div>
+
+    <div class="hero-right">
+      <div class="hero-feature">
+        <div class="hf-icon">🧠</div>
+        <div><div class="hf-title">Fully Local AI Pipeline</div><div class="hf-desc">LLM, STT, and TTS all run in-browser via Transformers.js and WebGPU. Zero external API calls at any point.</div></div>
+      </div>
+      <div class="hero-feature">
+        <div class="hf-icon">🎯</div>
+        <div><div class="hf-title">RAG-Powered Adaptive Questions</div><div class="hf-desc">The AI reads competency knowledge — not pre-written questions — and generates every question fresh based on your answers.</div></div>
+      </div>
+      <div class="hero-feature">
+        <div class="hf-icon">🎙️</div>
+        <div><div class="hf-title">Real Interview Feel</div><div class="hf-desc">Natural turn-taking — AI speaks, mic activates, you answer. Live filler word and WPM tracking overlaid in real time.</div></div>
+      </div>
+      <div class="hero-feature">
+        <div class="hf-icon">📊</div>
+        <div><div class="hf-title">Candidate Intelligence Report</div><div class="hf-desc">4-dimension scoring, radar chart, rewritten ideal answers, and a downloadable PDF — all generated locally by the LLM.</div></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- WHAT CHANGED -->
+<!-- ═══════════════════════════════ 01 — CONCEPT ═══════════════════════════════ -->
 <section>
   <div class="container">
-    <div class="section-label">// 00 — What Changed in v2</div>
-    <h2>No More <span class="highlight2">API Wrappers</span></h2>
-    <p class="section-intro">
-      v1 relied on external APIs — Gemini, Whisper, ElevenLabs. v2 eliminates all of them. Every AI component now runs locally inside the browser using Transformers.js + ONNX quantized models. This isn't just a cost fix — it's a fundamentally stronger hackathon project.
+    <div class="sec-label">01 — Core Concept</div>
+    <h2>Not a question bank.<br><em>A performance intelligence system.</em></h2>
+    <p class="sec-intro">
+      Most mock interview tools are glorified flashcard apps — they pick a question, you answer it, repeat. InterviewOS is different. It builds a live cognitive model of how you think, communicate, and perform under pressure, then adapts every question to target where you're weakest.
     </p>
 
-    <div style="margin-bottom:0.5rem;">
-      <div class="compare-row">
-        <div class="compare-cell header">Layer</div>
-        <div class="compare-cell header">v1 (API-based)</div>
-        <div class="compare-cell header">v2 (Local AI)</div>
+    <div class="auto3">
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h4>Adaptive Intelligence Loop</h4>
+        <p>Every answer you give is analyzed for gaps. Weak on scalability? The AI generates a question targeting exactly that. Strong on architecture? It escalates. This is how real senior interviewers behave.</p>
+        <span class="pill pill-a">Core Differentiator</span>
       </div>
-      <div class="compare-row">
-        <div class="compare-cell" style="color:var(--muted); font-family:'DM Mono',monospace; font-size:0.78rem;">LLM</div>
-        <div class="compare-cell highlight-bad">Gemini API — judges see through it</div>
-        <div class="compare-cell highlight-good">Qwen2.5 0.5B via Transformers.js</div>
+      <div class="card">
+        <div class="card-icon">🏠</div>
+        <h4>Fully Browser-Local</h4>
+        <p>No backend. No database. No API keys. Every model runs in the user's browser via WebGPU acceleration. Unplug the internet mid-demo — it still works.</p>
+        <span class="pill pill-g">$0 Forever</span>
       </div>
-      <div class="compare-row">
-        <div class="compare-cell" style="color:var(--muted); font-family:'DM Mono',monospace; font-size:0.78rem;">STT</div>
-        <div class="compare-cell highlight-bad">OpenAI Whisper API — paid credits</div>
-        <div class="compare-cell highlight-good">Whisper Small ONNX — in-browser</div>
+      <div class="card">
+        <div class="card-icon">🎭</div>
+        <h4>Interviewer Personas</h4>
+        <p>Choose your interviewer: The Skeptic, The Culture Fit Hunter, The Technical Griller, or The Friendly Senior. Each has distinct prompting style, follow-up behavior, and difficulty calibration.</p>
+        <span class="pill pill-b">Engagement</span>
       </div>
-      <div class="compare-row">
-        <div class="compare-cell" style="color:var(--muted); font-family:'DM Mono',monospace; font-size:0.78rem;">TTS</div>
-        <div class="compare-cell highlight-bad">ElevenLabs — free tier limit</div>
-        <div class="compare-cell highlight-good">SpeechT5 ONNX — in-browser</div>
+      <div class="card">
+        <div class="card-icon">🎙️</div>
+        <h4>Live Speech Analytics</h4>
+        <p>Real-time filler word counter, words-per-minute tracker, and answer length gauge — displayed as a live HUD overlay while you speak. Feels like a sports broadcast.</p>
+        <span class="pill pill-g">Live Feature</span>
       </div>
-      <div class="compare-row">
-        <div class="compare-cell" style="color:var(--muted); font-family:'DM Mono',monospace; font-size:0.78rem;">Cost</div>
-        <div class="compare-cell highlight-bad">~$0–10, trial credits expire</div>
-        <div class="compare-cell highlight-good">$0.00 forever, no account needed</div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h4>Role DNA Parser</h4>
+        <p>Describe your target role in plain text. The system extracts competencies, seniority signals, and domain focus to build a completely personalized interview profile.</p>
+        <span class="pill pill-a">AI-Powered</span>
       </div>
-      <div class="compare-row">
-        <div class="compare-cell" style="color:var(--muted); font-family:'DM Mono',monospace; font-size:0.78rem;">Offline</div>
-        <div class="compare-cell highlight-bad">❌ Requires internet always</div>
-        <div class="compare-cell highlight-good">✅ After first model load</div>
-      </div>
-      <div class="compare-row">
-        <div class="compare-cell" style="color:var(--muted); font-family:'DM Mono',monospace; font-size:0.78rem;">Hackathon score</div>
-        <div class="compare-cell highlight-ok">⭐⭐ "just an API wrapper"</div>
-        <div class="compare-cell highlight-good">⭐⭐⭐⭐⭐ Real AI architecture</div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h4>Candidate Intelligence Report</h4>
+        <p>Post-interview: radar chart of competencies, per-question scoring with rewritten ideal answers, STAR-method alignment analysis, and a downloadable PDF report.</p>
+        <span class="pill pill-b">Wow Factor</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- LOCAL AI MODELS -->
+<!-- ═══════════════════════════════ 02 — LOCAL AI ═══════════════════════════════ -->
 <section>
   <div class="container">
-    <div class="section-label">// 01 — Local AI Model Stack</div>
-    <h2>Three Models, <span class="highlight3">All In-Browser</span></h2>
-    <p class="section-intro">
-      You don't download these manually. Transformers.js fetches them from Hugging Face CDN automatically the first time each pipeline runs, then caches them in the browser forever. One <code style="font-family:'DM Mono',monospace; color:var(--accent3); font-size:0.9em;">npm install @huggingface/transformers</code> — that's all the setup you do.
+    <div class="sec-label">02 — Local AI Strategy</div>
+    <h2>Every model lives<br><em>in the browser.</em></h2>
+    <p class="sec-intro">
+      Calling an external LLM API in a hackathon signals you know how to read documentation. Running models locally signals you understand AI architecture. That distinction is what separates memorable projects from forgettable ones.
     </p>
 
-    <table class="model-table">
+    <div class="callout callout-amber">
+      <h3>Your Judge Pitch</h3>
+      <p>"This entire AI system — the interviewer, speech recognition, and voice — runs locally in your browser. No servers, no API keys, no internet required after first load. Your interview data never leaves your device."</p>
+    </div>
+
+    <div class="divider-label">Model Selection</div>
+
+    <table class="data-table">
       <thead>
-        <tr>
-          <th>Role</th>
-          <th>Model</th>
-          <th>Size</th>
-          <th>Why This One</th>
-        </tr>
+        <tr><th>Task</th><th>Model</th><th>Size</th><th>Speed</th><th>Quality</th><th>Reason</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>LLM / Interviewer Brain</td>
-          <td><span class="model-name">Xenova/Qwen2.5-0.5B-Instruct</span></td>
-          <td><span style="color:var(--accent3);">~400MB</span></td>
-          <td>Smallest capable instruction-following model. Fast inference on CPU. Good enough for interview Q&A + evaluation. Loads in ~30s on average laptop.</td>
+          <td>LLM Core</td>
+          <td><span class="tn">Qwen2.5-0.5B-Instruct</span></td>
+          <td>~400MB</td>
+          <td>⚡ Fast</td>
+          <td><span class="stars">★★★</span></td>
+          <td>Best size/quality tradeoff for hackathon. Loads in under a minute. Strong instruction-following for interview orchestration.</td>
+        </tr>
+        <tr>
+          <td>LLM Upgrade</td>
+          <td><span class="tn">Phi-3-mini-4k-instruct</span></td>
+          <td>~2.3GB</td>
+          <td>⚡⚡ Medium</td>
+          <td><span class="stars">★★★★</span></td>
+          <td>Noticeably smarter answers. Use only if demo laptop has 16GB+ RAM. Otherwise stick with Qwen.</td>
         </tr>
         <tr>
           <td>Speech-to-Text</td>
-          <td><span class="model-name">Xenova/whisper-small</span></td>
-          <td><span style="color:var(--gold);">~244MB</span></td>
-          <td>Best accuracy/size tradeoff. Handles accents well — important for India. Chunked audio streaming means near-real-time transcription.</td>
+          <td><span class="tn">Xenova/whisper-small</span></td>
+          <td>~244MB</td>
+          <td>⚡⚡ Fast</td>
+          <td><span class="stars">★★★★</span></td>
+          <td>Best accuracy-to-size ratio. Handles Indian English accents well. Integrated in a single pipeline() call.</td>
         </tr>
         <tr>
           <td>Text-to-Speech</td>
-          <td><span class="model-name">Xenova/speecht5_tts</span></td>
-          <td><span style="color:var(--accent3);">~200MB</span></td>
-          <td>Natural-sounding English voice. Runs fast. Makes the AI interviewer feel real — critical for the immersive interview experience.</td>
+          <td><span class="tn">Browser Speech Synthesis</span></td>
+          <td>0 MB</td>
+          <td>⚡⚡⚡ Instant</td>
+          <td><span class="stars">★★★</span></td>
+          <td>Built into Chrome/Edge. Zero download. Zero setup. "Google UK English" voice is natural enough for a demo.</td>
         </tr>
       </tbody>
     </table>
 
-    <div class="innovation-box">
-      <h3>The One-Time Download Problem — Solved</h3>
-      <p>
-        ~850MB of models downloading on first visit would break the demo. The fix: <strong>build a pre-load screen</strong> with individual progress bars for each model. Show it as a feature — <em>"Setting up your personal AI interview panel..."</em> with three animated progress bars. The night before your hackathon demo, open the app once and let everything cache. From that point, <strong>startup is instant, works completely offline, and never needs the internet again.</strong> This becomes a story: "Your interview data never leaves your device."
-      </p>
+    <div class="callout callout-neutral" style="margin-top:2rem">
+      <h3>How Models Load — Automatically</h3>
+      <p>You never touch a model file. Transformers.js fetches ONNX weights from Hugging Face's CDN the first time each pipeline runs, then stores them in the browser's IndexedDB cache. Every subsequent load is instant. <strong>Pre-cache all models on the demo laptop the night before your presentation.</strong> From that point, the app runs 100% offline.</p>
     </div>
 
     <div class="code-block">
-<span class="cm">// How model loading actually works — Transformers.js handles everything</span>
-<span class="kw">import</span> { pipeline, env } <span class="kw">from</span> <span class="str">'@huggingface/transformers'</span>;
+<span class="cmt">// One npm package. That's the entire AI installation.</span>
+npm install @huggingface/transformers
 
-<span class="cm">// Use WebGPU if available for faster inference, fallback to WASM</span>
-env.backends.onnx.wasm.proxy = <span class="kw">true</span>;
+<span class="cmt">// ─── LLM: AI Interviewer Brain ───────────────────────────────</span>
+<span class="kw">const</span> interviewer = <span class="kw">await</span> <span class="fn">pipeline</span>(
+  <span class="str">'text-generation'</span>,
+  <span class="str">'onnx-community/Qwen2.5-0.5B-Instruct'</span>,
+  { device: <span class="str">'webgpu'</span> }  <span class="cmt">// Falls back to WASM automatically on unsupported devices</span>
+);
 
-<span class="cm">// Models auto-download from HF CDN, cache in browser IndexedDB</span>
-<span class="kw">const</span> transcriber = <span class="kw">await</span> <span class="fn">pipeline</span>(<span class="str">'automatic-speech-recognition'</span>, <span class="str">'Xenova/whisper-small'</span>);
-<span class="kw">const</span> interviewer  = <span class="kw">await</span> <span class="fn">pipeline</span>(<span class="str">'text-generation'</span>, <span class="str">'Xenova/Qwen2.5-0.5B-Instruct'</span>);
-<span class="kw">const</span> speaker      = <span class="kw">await</span> <span class="fn">pipeline</span>(<span class="str">'text-to-speech'</span>, <span class="str">'Xenova/speecht5_tts'</span>);
+<span class="cmt">// ─── STT: Transcribe user speech in real time ─────────────────</span>
+<span class="kw">const</span> transcriber = <span class="kw">await</span> <span class="fn">pipeline</span>(
+  <span class="str">'automatic-speech-recognition'</span>,
+  <span class="str">'Xenova/whisper-small'</span>,
+  { device: <span class="str">'webgpu'</span> }
+);
 
-<span class="cm">// That's it. No API key. No account. No cost.</span>
-    </div>
+<span class="cmt">// ─── TTS: Interviewer voice (zero download, built-in) ─────────</span>
+<span class="kw">const</span> <span class="fn">speak</span> = (text) => {
+  <span class="kw">const</span> u = <span class="kw">new</span> <span class="fn">SpeechSynthesisUtterance</span>(text);
+  u.voice = speechSynthesis.<span class="fn">getVoices</span>().<span class="fn">find</span>(v => v.name.<span class="fn">includes</span>(<span class="str">'Google'</span>));
+  u.rate = <span class="num">0.95</span>;
+  speechSynthesis.<span class="fn">speak</span>(u);
+};</div>
   </div>
 </section>
 
-<!-- RAG + PROMPT ENGINEERING -->
+<!-- ═══════════════════════════════ 03 — RAG ═══════════════════════════════ -->
 <section>
   <div class="container">
-    <div class="section-label">// 02 — AI Strategy: RAG + Prompt Engineering</div>
-    <h2>Why This Beats <span class="highlight2">Fine-Tuning</span></h2>
-    <p class="section-intro">
-      Fine-tuning requires thousands of labeled examples, GPU compute, and days of time. RAG + prompt engineering gives you the same behavioral customization in hours — and it's dynamic, adapting to every candidate in real time. This is the mature engineering decision.
+    <div class="sec-label">03 — RAG System</div>
+    <h2>Knowledge that teaches<br><em>the AI to ask smart questions.</em></h2>
+    <p class="sec-intro">
+      The knowledge base never stores pre-written questions. It stores competency knowledge — what a great interviewer probes for, what signals a weak answer versus a strong one, and how to escalate. The LLM reads this knowledge and <em>generates every question itself.</em>
     </p>
 
-    <div class="two-col" style="margin-bottom:2.5rem;">
-      <div class="card" style="border-color:rgba(106,247,200,0.3);">
-        <h3 style="color:var(--accent3);">What RAG Does Here</h3>
-        <p>You build a static JSON knowledge base of interview questions, ideal answer frameworks, role-specific topic trees, and competency definitions. At runtime, the user's role description is used to <strong>retrieve the most relevant context</strong> and inject it into the model prompt — making a generic 0.5B model behave like a domain expert.</p>
-        <span class="tag green">No Training Required</span>
-      </div>
-      <div class="card" style="border-color:rgba(124,106,247,0.3);">
-        <h3 style="color:var(--accent);">What Prompt Engineering Does</h3>
-        <p>A precisely crafted system prompt shapes the model's <strong>persona, tone, question style, and evaluation rubric</strong>. It tells the model exactly what to do with weak answers (probe deeper) vs strong answers (escalate difficulty) — replicating fine-tuned behavior without any training.</p>
-        <span class="tag">Replaces Fine-Tuning</span>
-      </div>
+    <div class="callout callout-amber">
+      <h3>Why Not Fine-Tune?</h3>
+      <p>Fine-tuning requires 10,000+ domain-specific training examples, GPU compute, and days of time. You have none of these. A small model fine-tuned on insufficient data performs <strong>worse</strong> than the base model with precise prompting. RAG gives you the same domain-specialization dynamically at runtime — and it's actually more architecturally impressive because it adapts to every candidate in real time. Knowing when <em>not</em> to fine-tune is a mark of AI maturity that judges notice.</p>
     </div>
 
-    <p style="font-size:0.8rem; font-family:'DM Mono',monospace; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:1.5rem;">RAG Pipeline Flow</p>
+    <div class="divider-label">What the knowledge base actually contains</div>
+
+    <div class="code-block">
+<span class="cmt">// knowledge-base.json — competency knowledge, NOT questions</span>
+{
+  <span class="str">"backend_engineer"</span>: {
+    <span class="str">"competencies"</span>: [
+      {
+        <span class="str">"name"</span>: <span class="str">"System Design"</span>,
+        <span class="str">"what_to_probe"</span>: <span class="str">"scalability thinking, tradeoff awareness, failure modes, cost"</span>,
+        <span class="str">"weak_answer_signals"</span>: <span class="str">"only describes happy path, ignores scale, no numbers"</span>,
+        <span class="str">"strong_answer_signals"</span>: <span class="str">"quantifies bottlenecks, mentions CAP theorem, discusses monitoring"</span>,
+        <span class="str">"escalation_hint"</span>: <span class="str">"push toward distributed constraints if answer is strong"</span>
+      },
+      {
+        <span class="str">"name"</span>: "Debugging & Ownership",
+        <span class="str">"what_to_probe"</span>: <span class="str">"how they isolate problems, how deep they go, do they own the outcome"</span>,
+        <span class="str">"weak_answer_signals"</span>: <span class="str">"vague, says 'I googled it', no reflection"</span>,
+        <span class="str">"strong_answer_signals"</span>: <span class="str">"systematic approach, specific tools named, mentions prevention"</span>
+      }
+    ],
+    <span class="str">"answer_rubric"</span>: {
+      <span class="str">"star_compliance"</span>: <span class="str">"Does the answer have Situation, Task, Action, Result?"</span>,
+      <span class="str">"specificity"</span>: <span class="str">"Are real numbers, team sizes, and timelines mentioned?"</span>,
+      <span class="str">"conciseness"</span>: <span class="str">"Is the answer scoped or does it ramble?"</span>,
+      <span class="str">"role_relevance"</span>: <span class="str">"Does it align with the specific role's requirements?"</span>
+    }
+  }
+}</div>
+
+    <div class="divider-label">RAG Pipeline — Runtime Flow</div>
 
     <div class="rag-flow">
-      <div class="rag-step">
-        <div class="rag-num">01</div>
-        <div class="rag-content">
-          <div class="rag-title">User Describes Target Role</div>
-          <div class="rag-desc">e.g. "Frontend Engineer at a product startup, 2 years experience, React + TypeScript"</div>
+      <div class="rag-row">
+        <div class="rag-box amber">
+          <div class="rag-box-label">Step 1 — Parse</div>
+          <strong style="color:var(--amber2)">Role DNA Extraction</strong><br>
+          <span style="color:var(--muted);font-size:.82rem">User describes the role. System extracts: role type, seniority, domain, required skills using the LLM.</span>
+        </div>
+        <div class="rag-arr">→</div>
+        <div class="rag-box green">
+          <div class="rag-box-label">Step 2 — Retrieve</div>
+          <strong style="color:var(--green)">Competency Lookup</strong><br>
+          <span style="color:var(--muted);font-size:.82rem">Fetch the relevant competency objects, probe guidelines, signal definitions, and rubric from the knowledge base.</span>
+        </div>
+        <div class="rag-arr">→</div>
+        <div class="rag-box blue">
+          <div class="rag-box-label">Step 3 — Augment</div>
+          <strong style="color:var(--blue)">Context Injection</strong><br>
+          <span style="color:var(--muted);font-size:.82rem">Retrieved competency knowledge injected into the system prompt. LLM now knows <em>what to probe for</em>, not <em>what to ask</em>.</span>
         </div>
       </div>
-      <div class="rag-step">
-        <div class="rag-num">02</div>
-        <div class="rag-content">
-          <div class="rag-title">Role DNA Parser Extracts Signals</div>
-          <div class="rag-desc">Parses role, seniority, domain, and company type. Maps to a topic tree: [React, Performance, System Design, Team Collaboration, Product Thinking]</div>
+      <div class="rag-row">
+        <div class="rag-box amber" style="flex:2">
+          <div class="rag-box-label">Step 4 — Generate + Adapt</div>
+          <strong style="color:var(--amber2)">Dynamic Question Generation</strong><br>
+          <span style="color:var(--muted);font-size:.82rem">After each answer, the LLM receives the full transcript, detects which competency you're weakest on, and <em>generates a brand new question</em> targeting that gap. No question is ever pre-written. No two interviews are the same.</span>
         </div>
-      </div>
-      <div class="rag-step">
-        <div class="rag-num">03</div>
-        <div class="rag-content">
-          <div class="rag-title">RAG Retrieves Relevant Context</div>
-          <div class="rag-desc">From your local JSON knowledge base: pulls top 5 questions per topic, STAR answer examples for that domain, startup culture signals, difficulty calibration for the seniority level</div>
-        </div>
-      </div>
-      <div class="rag-step">
-        <div class="rag-num">04</div>
-        <div class="rag-content">
-          <div class="rag-title">Context Injected into System Prompt</div>
-          <div class="rag-desc">The Qwen model receives a rich, role-specific context window. It now "knows" this domain — without any training, purely from prompt injection.</div>
-        </div>
-      </div>
-      <div class="rag-step">
-        <div class="rag-num">05</div>
-        <div class="rag-content">
-          <div class="rag-title">Adaptive Loop — Every Answer Updates Context</div>
-          <div class="rag-desc">After each answer, detected weak areas are appended to the live context. The next question targets that weakness specifically. This is the adaptive intelligence loop — running entirely local.</div>
+        <div class="rag-arr">→</div>
+        <div class="rag-box green" style="flex:1">
+          <div class="rag-box-label">Step 5 — Evaluate</div>
+          <strong style="color:var(--green)">Rubric-Based Scoring</strong><br>
+          <span style="color:var(--muted);font-size:.82rem">LLM scores each answer 0–25 per dimension using the rubric from the knowledge base. Report generated as structured JSON.</span>
         </div>
       </div>
     </div>
+
+    <div class="divider-label">System Prompt — Shaped by RAG, Not Fine-Tuning</div>
 
     <div class="code-block">
-<span class="cm">// System prompt structure — shapes model behavior without fine-tuning</span>
-<span class="kw">const</span> <span class="fn">buildPrompt</span> = (role, retrievedContext, answerHistory) => <span class="str">`
-You are Alex, a Senior Engineering Manager conducting a real job interview.
+<span class="kw">const</span> SYSTEM_PROMPT = <span class="str">`
+You are Alex, a ${persona} conducting a real job interview.
 
-ROLE CONTEXT (retrieved):
-${retrievedContext.topicTree}
-${retrievedContext.questionBank}
-${retrievedContext.idealAnswerExamples}
+ROLE CONTEXT (from Role DNA Parser):
+Role: ${role} | Level: ${seniority} | Domain: ${domain}
 
-BEHAVIORAL RULES:
-- Ask ONE question at a time. Never two.
-- Keep questions under 25 words.
-- If the answer scores below 6/10 → probe the same topic deeper.
-- If the answer scores above 8/10 → escalate difficulty immediately.
-- Never reveal you are an AI model.
-- Use natural, conversational language.
+COMPETENCY KNOWLEDGE (retrieved from RAG):
+${ragCompetencies.map(c => <span class="str">`
+  Competency: ${c.name}
+  What to probe: ${c.what_to_probe}
+  Weak signal: ${c.weak_answer_signals}
+  Strong signal: ${c.strong_answer_signals}
+  Escalation: ${c.escalation_hint}
+`</span>).join('')}
 
-DETECTED WEAK AREAS SO FAR: ${answerHistory.weakAreas.join(', ')}
-QUESTIONS ASKED: ${answerHistory.questions.length}/8
+TRANSCRIPT + DETECTED GAPS SO FAR:
+${transcriptSummary}
 
-Generate the next interview question only. No preamble.
-`</span>;
+YOUR RULES:
+- Ask ONE question at a time. Never two. Max 25 words.
+- Do NOT use any pre-written question. Generate one fresh using the competency knowledge above.
+- If weak signals detected → probe deeper on that competency
+- If strong signals detected → escalate using escalation_hint
+- Never reveal you are an AI
+- After each answer, score it: STAR(0-25) Specificity(0-25) Concise(0-25) Relevance(0-25)
+`</span>;</div>
+
+    <div class="divider-label">Scoring Rubric</div>
+    <div class="auto4">
+      <div class="card"><div class="card-icon">🎯</div><h4>STAR Compliance</h4><p>Did the answer include a Situation, Task, Action, and Result? Vague anecdotes with no outcome score low.</p><span class="pill pill-a">0–25 pts</span></div>
+      <div class="card"><div class="card-icon">🔍</div><h4>Specificity</h4><p>Were real numbers, team sizes, timelines, and concrete evidence used? Generic answers score low.</p><span class="pill pill-g">0–25 pts</span></div>
+      <div class="card"><div class="card-icon">✂️</div><h4>Conciseness</h4><p>Was the answer appropriately scoped? Rambling, repetition, and filler words reduce this score directly.</p><span class="pill pill-r">0–25 pts</span></div>
+      <div class="card"><div class="card-icon">🎯</div><h4>Role Relevance</h4><p>Did the answer align with the specific role's competency requirements retrieved from the knowledge base?</p><span class="pill pill-b">0–25 pts</span></div>
     </div>
   </div>
 </section>
 
-<!-- FULL ARCHITECTURE -->
+<!-- ═══════════════════════════════ 04 — ARCHITECTURE ═══════════════════════════════ -->
 <section>
   <div class="container">
-    <div class="section-label">// 03 — Full System Architecture</div>
-    <h2>Everything <span class="highlight">In One Browser Tab</span></h2>
-    <p class="section-intro">
-      No backend. No database. No server. The entire AI pipeline, RAG knowledge base, session state, and report generator live in a single React app.
-    </p>
+    <div class="sec-label">04 — Technical Architecture</div>
+    <h2>Everything in<br><em>the browser.</em></h2>
+    <p class="sec-intro">No backend server. No database. No authentication layer. Vercel serves a static React bundle — every computation from that point happens on the user's device.</p>
 
-    <div class="pipeline">
-      <div class="pipeline-label">// Real-time interview data flow</div>
+    <div class="arch-wrap">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted2);margin-bottom:1.5rem">END-TO-END DATA FLOW</div>
 
-      <div class="pipeline-row">
-        <div class="pipeline-box green">🎤 Microphone
-          <small>Web Audio API</small>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-box green">Whisper Small
-          <small>Transformers.js STT</small>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-box accent">Live Transcript
-          <small>React State</small>
+      <div class="arch-layer">
+        <span class="arch-lbl">User Inputs</span>
+        <div class="chips">
+          <span class="chip chip-g">🎤 Microphone (Web Audio API)</span>
+          <span class="chip chip-g">📷 Camera (MediaDevices API)</span>
+          <span class="chip chip-g">📝 Role Description (Text)</span>
+          <span class="chip chip-n">🖥 Screen Share (optional)</span>
         </div>
       </div>
+      <div class="arch-arrow">↓</div>
 
-      <div style="text-align:center; color:var(--muted); font-size:1.2rem; margin: 0.25rem 0;">↓</div>
-
-      <div class="pipeline-row">
-        <div class="pipeline-box gold">RAG Retrieval
-          <small>Local JSON Knowledge Base</small>
-        </div>
-        <div class="pipeline-arrow">+</div>
-        <div class="pipeline-box gold">Prompt Builder
-          <small>Dynamic Context Injection</small>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-box accent">Qwen2.5 0.5B
-          <small>Transformers.js LLM</small>
+      <div class="arch-layer green">
+        <span class="arch-lbl green">STT Layer</span>
+        <div class="chips">
+          <span class="chip chip-g">MediaRecorder → Audio Chunks</span>
+          <span class="chip chip-g">Xenova/whisper-small (Transformers.js)</span>
+          <span class="chip chip-g">Live Transcript → React State</span>
         </div>
       </div>
+      <div class="arch-arrow">↓</div>
 
-      <div style="text-align:center; color:var(--muted); font-size:1.2rem; margin: 0.25rem 0;">↓</div>
-
-      <div class="pipeline-row">
-        <div class="pipeline-box pink">SpeechT5 TTS
-          <small>Transformers.js</small>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-box pink">🔊 Interviewer Speaks
-          <small>Web Audio playback</small>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-box pink">Avatar Animates
-          <small>CSS + speaking state</small>
+      <div class="arch-layer amber">
+        <span class="arch-lbl amber">RAG Layer</span>
+        <div class="chips">
+          <span class="chip chip-a">Role DNA Parser</span>
+          <span class="chip chip-a">Competency Knowledge Base (JSON)</span>
+          <span class="chip chip-a">Context Injection into Prompt</span>
+          <span class="chip chip-a">Adaptive Gap Detection</span>
         </div>
       </div>
+      <div class="arch-arrow">↓</div>
 
-      <div style="text-align:center; color:var(--muted); font-size:1.2rem; margin: 0.25rem 0;">↓</div>
+      <div class="arch-layer amber" style="border-width:2px">
+        <span class="arch-lbl amber">LLM Core</span>
+        <div class="chips">
+          <span class="chip chip-a">Qwen2.5-0.5B (Transformers.js + WebGPU)</span>
+          <span class="chip chip-a">Dynamic Question Generation</span>
+          <span class="chip chip-a">Answer Evaluation + Scoring</span>
+          <span class="chip chip-a">Report JSON Output</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↓</div>
 
-      <div class="pipeline-row">
-        <div class="pipeline-box gold">Answer Evaluator
-          <small>Qwen + rubric prompt</small>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-box gold">Report Generator
-          <small>JSON → Recharts + jsPDF</small>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-box gold">📄 Intelligence Report
-          <small>Download / Print</small>
+      <div class="arch-layer">
+        <span class="arch-lbl">Outputs</span>
+        <div class="chips">
+          <span class="chip chip-b">🗣 Browser Speech Synthesis (TTS)</span>
+          <span class="chip chip-b">📊 Radar Chart (Recharts)</span>
+          <span class="chip chip-b">📄 Candidate Intelligence Report</span>
+          <span class="chip chip-n">💾 jsPDF Export</span>
         </div>
       </div>
     </div>
 
-    <div style="margin-top:2rem;">
-      <p style="font-size:0.8rem; font-family:'DM Mono',monospace; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:1rem;">Architecture layers</p>
-      <div class="arch-full">
-        <span class="arch-full-label">Frontend</span>
-        <div class="arch-full-items">
-          <span class="chip">React + Vite</span>
-          <span class="chip">Tailwind CSS</span>
-          <span class="chip">shadcn/ui</span>
-          <span class="chip">Framer Motion</span>
-          <span class="chip">React Context + useReducer</span>
-        </div>
-      </div>
-      <div class="arch-full">
-        <span class="arch-full-label">Local AI</span>
-        <div class="arch-full-items">
-          <span class="chip green">@huggingface/transformers</span>
-          <span class="chip green">Qwen2.5-0.5B-Instruct</span>
-          <span class="chip green">Whisper Small ONNX</span>
-          <span class="chip green">SpeechT5 TTS ONNX</span>
-          <span class="chip green">WebGPU acceleration</span>
-        </div>
-      </div>
-      <div class="arch-full">
-        <span class="arch-full-label">AI Strategy</span>
-        <div class="arch-full-items">
-          <span class="chip gold">RAG (local JSON knowledge base)</span>
-          <span class="chip gold">Adaptive prompt engineering</span>
-          <span class="chip gold">4-dimension answer rubric</span>
-          <span class="chip gold">STAR method alignment scoring</span>
-        </div>
-      </div>
-      <div class="arch-full">
-        <span class="arch-full-label">Media</span>
-        <div class="arch-full-items">
-          <span class="chip pink">MediaDevices API (camera + mic)</span>
-          <span class="chip pink">MediaRecorder (audio chunks)</span>
-          <span class="chip pink">getDisplayMedia (screen share)</span>
-          <span class="chip pink">Web Audio API (TTS playback)</span>
-        </div>
-      </div>
-      <div class="arch-full">
-        <span class="arch-full-label">Output</span>
-        <div class="arch-full-items">
-          <span class="chip neutral">Recharts (radar + bar charts)</span>
-          <span class="chip neutral">jsPDF + html2canvas (PDF report)</span>
-          <span class="chip neutral">localStorage (session export)</span>
-          <span class="chip neutral">Vercel (deploy, free tier)</span>
-        </div>
-      </div>
+    <div class="divider-label">Real Interview Turn-Taking Loop</div>
+    <div class="flow-wrap">
+      <div class="flow-step lit">AI Speaks<span>TTS plays + avatar animates</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">Mic Activates<span>Auto on TTS end</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">User Answers<span>Live transcript shown</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">2s Silence<span>Answer submitted</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">Whisper STT<span>Audio → text</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">RAG + LLM<span>Generates next Q</span></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step lit">AI Speaks<span>Loop repeats</span></div>
     </div>
+
+    <div class="code-block" style="margin-top:1rem">
+<span class="cmt">// Turn-taking — silence detection triggers answer submission</span>
+recognition.onspeechend = () => {
+  <span class="fn">setTimeout</span>(<span class="kw">async</span> () => {
+    recognition.<span class="fn">stop</span>();
+    <span class="kw">const</span> transcript = currentTranscript;
+
+    <span class="cmt">// Whisper transcribes the audio chunk</span>
+    <span class="kw">const</span> result = <span class="kw">await</span> transcriber(audioBlob);
+
+    <span class="cmt">// RAG retrieves context + LLM generates next question</span>
+    <span class="kw">const</span> nextQ = <span class="kw">await</span> <span class="fn">generateNextQuestion</span>(result.text, sessionState);
+
+    <span class="cmt">// AI speaks the new question — loop continues</span>
+    <span class="fn">speak</span>(nextQ);
+  }, <span class="num">2000</span>); <span class="cmt">// 2s pause = candidate finished answering</span>
+};</div>
   </div>
 </section>
 
-<!-- REAL INTERVIEW FEEL -->
+<!-- ═══════════════════════════════ 05 — STACK ═══════════════════════════════ -->
 <section>
   <div class="container">
-    <div class="section-label">// 04 — Real Interview Experience</div>
-    <h2>Feels Like a <span class="highlight">Real Interview</span></h2>
-    <p class="section-intro">
-      Camera on. Mic on. AI interviewer speaks. You respond. Silence detection ends your turn. The loop is seamless, immersive, and built entirely from browser-native APIs.
-    </p>
+    <div class="sec-label">05 — Tech Stack</div>
+    <h2>Every tool,<br><em>justified.</em></h2>
+    <p class="sec-intro">All open-source. All free. All chosen for maximum demo impact within 36 hours of build time.</p>
 
-    <div class="concept-grid">
-      <div class="card">
-        <div class="card-icon">🧑‍💼</div>
-        <h3>Animated Interviewer Avatar</h3>
-        <p>DiceBear SVG avatar with a CSS pulse ring animation that activates while TTS audio plays. A nameplate shows the persona name and title. Feels like a video call — zero extra libraries.</p>
-        <span class="tag">CSS Only</span>
-      </div>
-      <div class="card">
-        <div class="card-icon">🔄</div>
-        <h3>Turn-Taking Logic</h3>
-        <p>TTS plays → mic activates automatically → user speaks → 2-second silence detected → answer submitted → Qwen generates next question → TTS plays again. The loop is fully automatic — no buttons needed.</p>
-        <span class="tag green">Immersive</span>
-      </div>
-      <div class="card">
-        <div class="card-icon">📊</div>
-        <h3>Live Analytics HUD</h3>
-        <p>Real-time overlay showing WPM, filler word count ("um", "like", "you know"), current answer duration, and a live waveform. Feels like a sports broadcast. Runs client-side with no AI needed.</p>
-        <span class="tag pink">Wow Factor</span>
-      </div>
-      <div class="card">
-        <div class="card-icon">📝</div>
-        <h3>Live Transcript Overlay</h3>
-        <p>Your spoken words appear as text in real time below your camera feed via Whisper chunked processing. Interim results show immediately for responsiveness, confirmed results replace them.</p>
-        <span class="tag green">Real-time</span>
-      </div>
-      <div class="card">
-        <div class="card-icon">🎭</div>
-        <h3>Interviewer Personas</h3>
-        <p>"The Skeptic", "The Culture Fit Hunter", "The Technical Griller", "The Friendly Senior." Each persona modifies the system prompt, question tone, and follow-up style. Implemented as prompt variants.</p>
-        <span class="tag">4 Personas</span>
-      </div>
-      <div class="card">
-        <div class="card-icon">📄</div>
-        <h3>Candidate Intelligence Report</h3>
-        <p>After the interview: radar chart across 5 competencies, per-question score breakdown, your answer vs ideal answer side-by-side, and a downloadable PDF. The most memorable demo moment.</p>
-        <span class="tag gold">Deliverable</span>
-      </div>
-    </div>
+    <table class="data-table">
+      <thead><tr><th>Category</th><th>Tool</th><th>Reason</th></tr></thead>
+      <tbody>
+        <tr><td>AI Runtime</td><td><span class="tnw">@huggingface/transformers</span></td><td>Runs ONNX models in-browser via WebGPU or WASM. Auto-downloads and caches all models. One npm package replaces every AI API dependency.</td></tr>
+        <tr><td>LLM</td><td><span class="tnw">Qwen2.5-0.5B-Instruct (ONNX)</span></td><td>400MB. Best instruction-following at this size. Fast enough for real-time interview orchestration on a mid-range laptop.</td></tr>
+        <tr><td>Speech-to-Text</td><td><span class="tnw">Xenova/whisper-small (ONNX)</span></td><td>244MB. Strongest accent handling at this model tier. Integrated via a single Transformers.js pipeline call.</td></tr>
+        <tr><td>Text-to-Speech</td><td><span class="tnw">Browser Speech Synthesis API</span></td><td>Native Chrome/Edge API. Zero download, zero setup, instant. "Google UK English" voice creates a professional interview atmosphere.</td></tr>
+        <tr><td>UI Framework</td><td><span class="tnw">React + Vite</span></td><td>Fastest dev loop. HMR. Both team members already familiar. Component model maps cleanly onto interview state stages.</td></tr>
+        <tr><td>Styling</td><td><span class="tnw">Tailwind CSS + shadcn/ui</span></td><td>Pre-built accessible components eliminate any design bottleneck under time pressure. Compose, don't build from scratch.</td></tr>
+        <tr><td>Animations</td><td><span class="tnw">Framer Motion</span></td><td>Speaking pulse indicator on avatar, question card transitions, feedback reveal — essential for authentic interview atmosphere.</td></tr>
+        <tr><td>Charts</td><td><span class="tnw">Recharts</span></td><td>React-native radar and bar charts. Zero config. Renders the competency radar chart in the Candidate Report perfectly.</td></tr>
+        <tr><td>PDF Export</td><td><span class="tnw">jsPDF + html2canvas</span></td><td>Client-side PDF generation. No server. You can physically print and hand the judge their own Candidate Report.</td></tr>
+        <tr><td>State</td><td><span class="tnw">React Context + useReducer</span></td><td>Interview is a finite state machine. Context with a reducer handles all transitions with zero external library overhead.</td></tr>
+        <tr><td>Deployment</td><td><span class="tnw">Vercel (Free Tier)</span></td><td>One command. Instant HTTPS. Live URL in under 2 minutes. Free for static sites forever.</td></tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
-<!-- BUILD TIMELINE -->
+<!-- ═══════════════════════════════ 06 — TIMELINE ═══════════════════════════════ -->
 <section>
   <div class="container">
-    <div class="section-label">// 05 — 36-Hour Build Plan</div>
-    <h2>Sprint <span class="highlight">Breakdown</span></h2>
-    <p class="section-intro">
-      Dev 1 owns UI/UX and the interview room. Dev 2 owns the AI pipeline and knowledge base. Work is almost entirely parallel until hour 22 when integration begins.
-    </p>
+    <div class="sec-label">06 — 36-Hour Sprint Plan</div>
+    <h2>Hour by hour,<br><em>two developers.</em></h2>
+    <p class="sec-intro">Dev 1 owns the interview UI and session experience. Dev 2 owns the entire AI pipeline and data layer. Work is nearly non-overlapping until hour 24 when both converge for integration and polish.</p>
 
-    <div class="two-col">
+    <div class="grid2" style="gap:3rem">
       <div>
-        <p style="font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent2); margin-bottom:1rem; font-family:'DM Mono',monospace;">Dev 1 — Interview UX</p>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 0–4</div>
-            <div class="timeline-title">Setup + Model Loading Screen</div>
-            <div class="timeline-desc">Vite + React + Tailwind + shadcn scaffold. Build the pre-load screen with per-model progress bars. This is the first thing users see — make it look great.</div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:1.5rem">Dev 1 — Interview UX</p>
+        <div class="tl">
+          <div class="tl-item">
+            <div class="tl-time">Hour 0–4</div>
+            <div class="tl-title">Project Scaffold + Design System</div>
+            <div class="tl-desc">Vite + React setup, Tailwind config, shadcn/ui install, shared color tokens and typography. Build the model pre-loading screen with per-model download progress bars.</div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 4–10</div>
-            <div class="timeline-title">Interview Room UI</div>
-            <div class="timeline-desc">Camera/mic layout. Avatar component with speaking animation. Live transcript overlay. WPM + filler word HUD. Turn-taking state indicators.</div>
+          <div class="tl-item">
+            <div class="tl-time">Hour 4–12</div>
+            <div class="tl-title">Interview Room UI</div>
+            <div class="tl-desc">Camera + mic permission panels, animated AI avatar with speaking pulse rings (CSS animation), live transcript overlay, question display card, persona and role selector screens.</div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 10–18</div>
-            <div class="timeline-title">Session State Machine + Persona Selector</div>
-            <div class="timeline-desc">Interview flow: Preload → Setup → Active → Evaluation → Report. Persona picker UI. Question progress bar. Countdown timer per question.</div>
+          <div class="tl-item">
+            <div class="tl-time">Hour 12–20</div>
+            <div class="tl-title">Session State Machine</div>
+            <div class="tl-desc">Finite states: Setup → Loading → Intro → Interviewing → Thinking → Feedback → Report. Countdown timers, live filler word HUD overlay, progress indicator, silence detection visual cue.</div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 18–28</div>
-            <div class="timeline-title">Report UI — Charts + PDF</div>
-            <div class="timeline-desc">Recharts radar chart (5 competencies). Per-question cards with answer comparison. jsPDF export. Animate report reveal for demo wow factor.</div>
+          <div class="tl-item">
+            <div class="tl-time">Hour 20–30</div>
+            <div class="tl-title">Report UI + Animations</div>
+            <div class="tl-desc">Recharts radar chart, per-question scoring cards, answer comparison (yours vs ideal) side-by-side layout. Framer Motion staggered reveal animations throughout the report screen.</div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 28–36</div>
-            <div class="timeline-title">Polish + Demo Prep</div>
-            <div class="timeline-desc">Edge cases, error states, loading indicators. Pre-cache all models on demo machine. Full end-to-end test run. Deploy to Vercel.</div>
+          <div class="tl-item">
+            <div class="tl-time">Hour 30–36</div>
+            <div class="tl-title">Polish + Demo Prep</div>
+            <div class="tl-desc">End-to-end flow testing, edge case handling, Vercel deploy, scripted demo rehearsal, pre-cache all models on the demo laptop the night before.</div>
           </div>
         </div>
       </div>
       <div>
-        <p style="font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent3); margin-bottom:1rem; font-family:'DM Mono',monospace;">Dev 2 — AI Pipeline</p>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 0–4</div>
-            <div class="timeline-title">Transformers.js Setup + Model Testing</div>
-            <div class="timeline-desc">Install @huggingface/transformers. Test all three pipelines (STT, LLM, TTS) in isolation. Confirm WebGPU availability. Measure load times and inference speed.</div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-bottom:1.5rem">Dev 2 — AI Pipeline</p>
+        <div class="tl">
+          <div class="tl-item">
+            <div class="tl-time">Hour 0–4</div>
+            <div class="tl-title">Knowledge Base + System Prompts</div>
+            <div class="tl-desc">Build knowledge-base.json: 5–6 roles, competency objects per role, probe guidelines, weak/strong signals, escalation hints. Write and test all LLM system prompts with the scoring rubric baked in.</div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 4–10</div>
-            <div class="timeline-title">RAG Knowledge Base + Prompt Engineering</div>
-            <div class="timeline-desc">Build the JSON knowledge base: 5 role types × 6 topics × 5 questions = 150 questions. Write and test all system prompts for each persona. Validate adaptive behavior.</div>
+          <div class="tl-item">
+            <div class="tl-time">Hour 4–12</div>
+            <div class="tl-title">Transformers.js Pipeline</div>
+            <div class="tl-desc">Wire Whisper STT and Qwen2.5 LLM pipelines. Build model loading progress hooks. Implement WebGPU detection with automatic WASM fallback. Connect model outputs to React state.</div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 10–18</div>
-            <div class="timeline-title">STT Pipeline + Turn Detection</div>
-            <div class="timeline-desc">Wire Whisper to MediaRecorder audio chunks. Implement 2s silence detection for turn-taking. Live filler word counter and WPM calculator from transcript stream.</div>
+          <div class="tl-item">
+            <div class="tl-time">Hour 12–20</div>
+            <div class="tl-title">RAG Layer + Turn-Taking</div>
+            <div class="tl-desc">Role DNA parser using the LLM, knowledge base retrieval logic, context injection into system prompt. 2-second silence detection via onspeechend. Browser Speech Synthesis TTS integration.</div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 18–28</div>
-            <div class="timeline-title">Answer Evaluator + Report Generator</div>
-            <div class="timeline-desc">Qwen evaluation prompt with 4-dimension rubric. Map scores to radar chart data structure. STAR method alignment detector. Generate rewritten ideal answers.</div>
+          <div class="tl-item">
+            <div class="tl-time">Hour 20–30</div>
+            <div class="tl-title">Evaluation Engine + Report</div>
+            <div class="tl-desc">4-dimension LLM scoring prompt, structured JSON report generation, client-side filler word analysis, WPM counter, STAR alignment detector, jsPDF + html2canvas export pipeline.</div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-time">Hour 28–36</div>
-            <div class="timeline-title">Integration QA + Performance</div>
-            <div class="timeline-desc">Full pipeline end-to-end test. Optimize inference batching. Handle WebGPU fallback to WASM. Fix race conditions in the turn-taking loop.</div>
+          <div class="tl-item">
+            <div class="tl-time">Hour 30–36</div>
+            <div class="tl-title">Integration QA</div>
+            <div class="tl-desc">Full pipeline integration testing with Dev 1, inference latency measurement, error boundary implementation, memory leak prevention for long sessions, final prompt tuning.</div>
           </div>
         </div>
       </div>
@@ -1126,101 +1077,100 @@ Generate the next interview question only. No preamble.
   </div>
 </section>
 
-<!-- JUDGE NARRATIVE -->
+<!-- ═══════════════════════════════ 07 — SCOPE ═══════════════════════════════ -->
 <section>
   <div class="container">
-    <div class="section-label">// 06 — Your Hackathon Story</div>
-    <h2>What You Say to <span class="highlight">Judges</span></h2>
+    <div class="sec-label">07 — Scope Management</div>
+    <h2>Build this.<br><em>Cut that.</em></h2>
+    <p class="sec-intro">A focused, complete demo beats an ambitious, broken one. These cuts are not compromises — they are decisions that keep the core experience sharp.</p>
 
-    <div class="innovation-box" style="border-color:rgba(106,247,200,0.3); background: linear-gradient(135deg, rgba(106,247,200,0.06), rgba(124,106,247,0.04));">
-      <h3 style="color:var(--accent3);">Your 60-Second Pitch</h3>
-      <p>
-        <em>"Most AI apps at hackathons are just wrappers around GPT or Gemini. We took a different approach. InterviewOS runs three AI models — speech recognition, a language model, and text-to-speech — entirely inside the browser using Transformers.js and quantized ONNX weights. No API calls. No internet required after the first load. Your interview data never leaves your device. We also built a RAG layer with a curated knowledge base of 150+ role-specific interview questions, so the model adapts to your target role without any fine-tuning. Every session is unique because the AI reads your previous answers and targets your exact weak spots. And at the end, you get a downloadable Candidate Intelligence Report — a full breakdown of how you performed."</em>
-      </p>
-    </div>
-
-    <div class="diff-grid" style="margin-top:2rem;">
-      <div class="diff-card" data-num="1">
-        <h4>No API Wrappers</h4>
-        <p>Three models running locally in the browser. Judges will immediately recognize this as genuine AI engineering, not just prompt engineering over an API.</p>
-      </div>
-      <div class="diff-card" data-num="2">
-        <h4>Offline After First Load</h4>
-        <p>Disconnect the internet during the demo. The app keeps working perfectly. That moment alone wins the room.</p>
-      </div>
-      <div class="diff-card" data-num="3">
-        <h4>The AI Speaks Back</h4>
-        <p>SpeechT5 TTS + animated avatar makes the interviewer feel real. No other team will have this running locally.</p>
-      </div>
-      <div class="diff-card" data-num="4">
-        <h4>RAG Architecture</h4>
-        <p>You can explain exactly why you chose RAG over fine-tuning. Knowing the tradeoffs signals deep AI maturity to technical judges.</p>
-      </div>
-      <div class="diff-card" data-num="5">
-        <h4>The PDF Report</h4>
-        <p>Hand a judge their own printed Candidate Intelligence Report. Physical artifacts from a web demo are unforgettable.</p>
-      </div>
-      <div class="diff-card" data-num="6">
-        <h4>Privacy-First Story</h4>
-        <p>"Your interview data never leaves your device" is a clear, compelling product narrative that resonates with everyone in the room.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SCOPE -->
-<section>
-  <div class="container">
-    <div class="section-label">// 07 — Scope Management</div>
-    <h2>Build vs <span class="highlight2">Cut</span></h2>
-
-    <div class="two-col">
-      <div class="card" style="border-color:rgba(106,247,200,0.3);">
-        <h3 style="color:var(--accent3); margin-bottom:1rem;">✅ Must-Have (36hrs)</h3>
+    <div class="grid2">
+      <div class="card" style="border-color:rgba(62,207,142,0.25)">
+        <h4 style="color:var(--green);font-size:1rem;margin-bottom:1.25rem">✅ Build in 36 Hours</h4>
         <ul>
-          <li>Model preload screen with progress bars</li>
-          <li>Role input + persona selector</li>
-          <li>Live camera + mic interview room</li>
-          <li>Whisper STT → adaptive Qwen questions</li>
-          <li>SpeechT5 TTS + avatar speaking animation</li>
-          <li>Turn-taking with silence detection</li>
-          <li>Live WPM + filler word HUD</li>
-          <li>Post-interview radar chart + scoring</li>
-          <li>Answer comparison (yours vs ideal)</li>
-          <li>PDF report export</li>
+          <li>Model preload screen with per-model progress bars</li>
+          <li>Role description input + persona selector</li>
+          <li>Camera + mic interview room UI</li>
+          <li>Whisper STT with live transcript overlay</li>
+          <li>RAG-powered dynamic question generation</li>
+          <li>AI voice via Browser Speech Synthesis</li>
+          <li>Animated avatar with speaking pulse</li>
+          <li>Live filler word counter + WPM HUD</li>
+          <li>4-dimension rubric scoring per answer</li>
+          <li>Post-interview radar chart + feedback</li>
+          <li>Answer comparison: yours vs AI-rewritten ideal</li>
+          <li>PDF report export via jsPDF</li>
         </ul>
       </div>
-      <div class="card" style="border-color:rgba(247,106,138,0.3);">
-        <h3 style="color:var(--accent2); margin-bottom:1rem;">🚫 Cut for Hackathon</h3>
+      <div class="card" style="border-color:rgba(232,80,80,0.25)">
+        <h4 style="color:var(--red);font-size:1rem;margin-bottom:1.25rem">🚫 Cut for Hackathon</h4>
         <ul>
-          <li>User authentication / login</li>
-          <li>Cloud persistence / history</li>
-          <li>Video recording + playback</li>
-          <li>Facial expression / emotion analysis</li>
-          <li>Multi-round interview simulation</li>
-          <li>Fine-tuning pipeline</li>
-          <li>Real-time collaboration</li>
-          <li>Mobile responsive layout (demo on laptop)</li>
+          <li>User authentication or any cloud persistence</li>
+          <li>Phi-3 or larger models — use Qwen2.5-0.5B</li>
+          <li>SpeechT5 TTS — browser synthesis is enough</li>
+          <li>Video recording and playback features</li>
+          <li>Facial expression or body language analysis</li>
+          <li>Vector database — plain JSON RAG works fine</li>
+          <li>Fine-tuning of any model whatsoever</li>
+          <li>Multi-round or panel interview simulation</li>
+          <li>Company-specific question databases</li>
+          <li>Real-time collaboration features</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ═══════════════════════════════ 08 — DIFFERENTIATORS ═══════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="sec-label">08 — Why Judges Remember This</div>
+    <h2>Six moments that<br><em>win the room.</em></h2>
+    <p class="sec-intro">Each of these is a distinct, demonstrable moment during your presentation that no other hackathon project will have.</p>
+
+    <div class="auto4">
+      <div class="diff-card" data-n="1">
+        <h4>Unplug the Internet</h4>
+        <p>Disconnect WiFi mid-demo. The app keeps running. "Zero external APIs" stops being a claim and becomes a live demonstration.</p>
+      </div>
+      <div class="diff-card" data-n="2">
+        <h4>AI Speaks Back</h4>
+        <p>Natural turn-taking — AI speaks, mic activates, you answer. The conversational loop creates genuine interview immersion no text-based tool can match.</p>
+      </div>
+      <div class="diff-card" data-n="3">
+        <h4>Live Analytics HUD</h4>
+        <p>Filler word counter ticking up in real time while you speak. WPM gauge updating live. Judges have never seen this layer on top of an interview before.</p>
+      </div>
+      <div class="diff-card" data-n="4">
+        <h4>Questions Never Repeat</h4>
+        <p>Ask two candidates the same role. Show them getting completely different interviews because the AI generated every question from their unique answers.</p>
+      </div>
+      <div class="diff-card" data-n="5">
+        <h4>The Printed Report</h4>
+        <p>Hand a judge a physical, printed Candidate Intelligence Report generated entirely in their browser. A real artifact from a zero-server AI app is unforgettable.</p>
+      </div>
+      <div class="diff-card" data-n="6">
+        <h4>Privacy by Architecture</h4>
+        <p>"Your data never leaves your device" is architecturally true, not just a privacy policy. In a world of data leaks, this resonates with every judge immediately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
 <footer>
   <div class="container">
-    <div class="footer-title">Zero cost. Full power.</div>
-    <p class="footer-sub">InterviewOS v2 — Zero API Edition &nbsp;·&nbsp; 2 Developers &nbsp;·&nbsp; 36 Hours &nbsp;·&nbsp; $0.00</p>
-    <div style="margin-top:2rem; display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
-      <span class="chip">React + Vite</span>
-      <span class="chip green">Transformers.js</span>
-      <span class="chip green">Qwen2.5 0.5B</span>
-      <span class="chip green">Whisper Small</span>
-      <span class="chip green">SpeechT5 TTS</span>
-      <span class="chip gold">RAG Pipeline</span>
-      <span class="chip gold">jsPDF Report</span>
-      <span class="chip neutral">Vercel Deploy</span>
+    <div class="footer-title">Build something unforgettable.</div>
+    <p class="footer-sub">InterviewOS &nbsp;·&nbsp; 36-Hour Hackathon Blueprint &nbsp;·&nbsp; 2 Developers &nbsp;·&nbsp; $0.00 &nbsp;·&nbsp; 100% Local AI</p>
+    <div class="footer-chips">
+      <span class="chip chip-g">Transformers.js</span>
+      <span class="chip chip-g">Qwen2.5-0.5B</span>
+      <span class="chip chip-g">Whisper STT</span>
+      <span class="chip chip-a">RAG Pipeline</span>
+      <span class="chip chip-a">React + Vite</span>
+      <span class="chip chip-b">Recharts</span>
+      <span class="chip chip-n">jsPDF Export</span>
+      <span class="chip chip-n">Vercel</span>
     </div>
   </div>
 </footer>
